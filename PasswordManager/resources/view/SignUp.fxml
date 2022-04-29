@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.SignUpController">
+   <children>
+      <Text layoutX="186.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Your Account">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <VBox layoutX="75.0" layoutY="72.0" prefHeight="65.0" prefWidth="451.0" spacing="25.0">
+         <children>
+            <TextField fx:id="usernameTextField" prefHeight="25.0" promptText="Username">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <PasswordField fx:id="passwordField" promptText="Password">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </PasswordField>
+            <MenuButton fx:id="securityQuestionMenuButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Security Question">
+              <items>
+                <MenuItem mnemonicParsing="false" text="What is your mother's maiden name?" />
+                <MenuItem mnemonicParsing="false" text="In what city were you born?" />
+                  <MenuItem mnemonicParsing="false" text="What high school did you attend?" />
+                  <MenuItem mnemonicParsing="false" text="In what city or town did your mother and father meet?" />
+              </items>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </MenuButton>
+            <TextField fx:id="securityQuestionAnswer" prefHeight="25.0" promptText="Answer">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#showLoginPage" prefHeight="25.0" prefWidth="500.0" text="Return to Login">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#addUser" prefHeight="25.0" prefWidth="500.0" text="Confirm">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="35.0" left="20.0" right="20.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>
