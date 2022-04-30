@@ -2,9 +2,12 @@ package application.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Random;
 
 import application.CommonObjects;
+import application.model.Account;
+import application.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
@@ -122,7 +125,7 @@ public class AddAccountController {
 		
 		//allowed characters is initially only letters
 		String letters = "abcdefghijklmnopqrstuvwxyz";
-		String specialCharacters = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+		String specialCharacters = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 		String allowedCharacters = letters;
 		// if special characters are allowed, then they are added to the allowed character string
 		if (specialCharactersEnabled) {

@@ -2,6 +2,8 @@ package application;
 
 import java.util.Random;
 
+import application.dao.AccountDataAccessObject;
+import application.dao.UserDataAccessObject;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -11,6 +13,8 @@ public class CommonObjects {
 	
 	private VBox mainBox;
 	private Random generator;
+	private AccountDataAccessObject accountDAO;
+	private UserDataAccessObject userDAO;
 	
 	private CommonObjects() {
 		
@@ -34,6 +38,22 @@ public class CommonObjects {
 
 	public void setGenerator(Random generator) {
 		this.generator = generator;
+	}
+
+	public AccountDataAccessObject getAccountDAO() {
+		return accountDAO;
+	}
+
+	public void setAccountDAO(AccountDataAccessObject accountDAO) {
+		this.accountDAO = accountDAO;
+	}
+
+	public UserDataAccessObject getUserDAO() {
+		return userDAO;
+	}
+
+	public void setUserDAO(UserDataAccessObject userDAO) {
+		this.userDAO = userDAO;
 	}
 	
 	
