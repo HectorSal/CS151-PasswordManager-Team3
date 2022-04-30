@@ -18,7 +18,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <VBox layoutX="76.0" layoutY="49.0" prefHeight="414.0" prefWidth="450.0" spacing="15.0">
+      <VBox fx:id="textFieldsAndButtonsVBox" layoutX="76.0" layoutY="49.0" prefHeight="414.0" prefWidth="450.0" spacing="15.0">
          <children>
             <TextField fx:id="serviceNameTextField" prefHeight="25.0" prefWidth="421.0" promptText="Service Name">
                <font>
@@ -68,14 +68,14 @@
                               <Font size="15.0" />
                            </font>
                         </CheckBox>
-                        <HBox fx:id="capitalLettersHBox" prefHeight="45.0" prefWidth="368.0" spacing="10.0">
+                        <HBox prefHeight="45.0" prefWidth="368.0" spacing="10.0">
                            <children>
                               <CheckBox fx:id="capitalLettersCheckBox" mnemonicParsing="false" onAction="#toggleCapitalLettersField" text="Include Capital Letters">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </CheckBox>
-                              <TextField fx:id="capitalLettersField" promptText="How many?">
+                              <TextField fx:id="capitalLettersField" promptText="How many?" visible="false">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -91,7 +91,7 @@
                   </Button>
                </children>
             </VBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="400.0" spacing="25.0">
+            <HBox fx:id="navigationButtonsHBox" alignment="CENTER" prefHeight="100.0" prefWidth="400.0" spacing="25.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#showHomePage" prefHeight="25.0" prefWidth="179.0" text="Return to Home">
                      <font>
