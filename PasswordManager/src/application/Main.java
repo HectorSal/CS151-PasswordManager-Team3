@@ -1,6 +1,8 @@
 package application;
 	
+import java.io.IOException;
 import java.net.URL;
+import java.util.Random;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -19,8 +21,12 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getClassLoader().getResource("css/application.css").toExternalForm());
 			
 			URL url = getClass().getClassLoader().getResource("view/Login.fxml");
-			AnchorPane pane1 = (AnchorPane) FXMLLoader.load(url);
-			mainBox.getChildren().add(pane1);
+			try {
+				AnchorPane pagePane = (AnchorPane) FXMLLoader.load(url);
+				mainBox.getChildren().add(pagePane);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			
 			primaryStage.setTitle("Password Manager");
 			primaryStage.setScene(scene);
@@ -28,7 +34,10 @@ public class Main extends Application {
 			
 			// keep a reference of the main box inside the CommonObjects object
 			CommonObjects commonObjects = CommonObjects.getInstance();
+			Random generator = new Random();
 			commonObjects.setMainBox(mainBox);
+			commonObjects.setGenerator(generator);
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

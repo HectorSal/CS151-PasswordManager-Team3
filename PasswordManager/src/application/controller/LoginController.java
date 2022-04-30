@@ -5,20 +5,18 @@ import java.io.IOException;
 import application.CommonObjects;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.PasswordField;
 
 public class LoginController {
 
 	private CommonObjects commonObject = CommonObjects.getInstance();
 	
-	@FXML PasswordField passwordField;
 	@FXML TextField usernameTextField;
-
+	@FXML PasswordField passwordField;
 	@FXML public void verifyLogin() {}
-
 	@FXML public void showSignUpPage() {
 		VBox mainBox = commonObject.getMainBox();
 		mainBox.getChildren().clear();
@@ -29,7 +27,6 @@ public class LoginController {
 			e.printStackTrace();
 		}
 	}
-
 	@FXML public void showResetMasterPasswordPage() {
 		VBox mainBox = commonObject.getMainBox();
 		mainBox.getChildren().clear();

@@ -1,6 +1,7 @@
 package application.controller;
 
 import java.io.IOException;
+import java.net.URL;
 
 import application.CommonObjects;
 import javafx.fxml.FXML;
@@ -16,14 +17,23 @@ public class HomeController {
 	@FXML TableView accountTable;
 
 	@FXML public void showAddAccountPage() {
-		VBox mainBox = commonObject.getMainBox();
-		mainBox.getChildren().clear();
 		
+		URL url = getClass().getClassLoader().getResource("view/AddAccount.fxml");
 		try {
-			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/AddAccount.fxml")));
+			AnchorPane pagePane = (AnchorPane) FXMLLoader.load(url);
+			
+			VBox mainBox = commonObject.getMainBox();
+			
+			mainBox.getChildren().clear();
+			mainBox.getChildren().add(pagePane);
+			VBox vbox = (VBox) pagePane.getChildren().get(1);
+			vbox.getChildren().remove(5);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 
 	@FXML public void showResetMasterPasswordPage() {

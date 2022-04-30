@@ -14,7 +14,7 @@ import javafx.scene.control.MenuButton;
 public class SignUpController {
 
 	private CommonObjects commonObject = CommonObjects.getInstance();
-
+	
 	@FXML TextField usernameTextField;
 	@FXML PasswordField passwordField;
 	@FXML MenuButton securityQuestionMenuButton;
