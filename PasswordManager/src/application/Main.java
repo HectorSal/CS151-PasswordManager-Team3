@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 
+import application.dao.AccountDataAccessObject;
+import application.dao.UserDataAccessObject;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -35,8 +37,13 @@ public class Main extends Application {
 			// keep a reference of the main box inside the CommonObjects object
 			CommonObjects commonObjects = CommonObjects.getInstance();
 			Random generator = new Random();
+			UserDataAccessObject userDao = new UserDataAccessObject();
+			AccountDataAccessObject accountDao = new AccountDataAccessObject();
 			commonObjects.setMainBox(mainBox);
 			commonObjects.setGenerator(generator);
+			commonObjects.setUserDAO(userDao);
+			commonObjects.setAccountDAO(accountDao);
+			
 			
 		} catch(Exception e) {
 			e.printStackTrace();

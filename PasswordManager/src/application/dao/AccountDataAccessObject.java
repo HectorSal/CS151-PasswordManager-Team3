@@ -13,8 +13,8 @@ public class AccountDataAccessObject {
 
 	public ArrayList<Account> getAllAccounts(String user) throws IOException {
 		// file path
-		String path = "resources/flatFiles/accounts/" + user + ".txt";
-		InputStreamReader isr = new InputStreamReader(UserDataAccessObject.class.getResourceAsStream(path));
+		String path = "flatFiles/accounts/" + user + ".txt";
+		InputStreamReader isr = new InputStreamReader(AccountDataAccessObject.class.getClassLoader().getResourceAsStream(path));
 		BufferedReader br = new BufferedReader(isr);
 		String line = "";
 		line = br.readLine();

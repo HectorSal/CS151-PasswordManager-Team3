@@ -1,8 +1,12 @@
 package application.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import application.CommonObjects;
+import application.model.Account;
+import application.model.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
@@ -10,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 
 public class SignUpController {
 
@@ -18,7 +23,7 @@ public class SignUpController {
 	@FXML TextField usernameTextField;
 	@FXML PasswordField passwordField;
 	@FXML MenuButton securityQuestionMenuButton;
-	@FXML TextField securityQuestionAnswer;
+	@FXML TextField securityQuestionAnswer;	
 	@FXML public void showLoginPage() {
 		VBox mainBox = commonObject.getMainBox();
 		mainBox.getChildren().clear();
@@ -29,6 +34,25 @@ public class SignUpController {
 			e.printStackTrace();
 		}
 	}
-	@FXML public void addUser() {}
+	private String question = "";
+	@FXML public void addUser() {
+		String user = usernameTextField.getText(), 
+				pass = passwordField.getText(),  
+				answer = securityQuestionAnswer.getText();
+		
+		if(!user.isEmpty() && !pass.isEmpty() && !question.isEmpty() &&	!answer.isEmpty()) {
+			try {
+				commonObject.getUserDAO().insertUser(new User(user, pass, question, answer, new ArrayList<Account>()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@FXML public void menuItemHandler(ActionEvent event) { 
+		String itemText = ((MenuItem)event.getSource()).getText();
+		securityQuestionMenuButton.setText(itemText);
+		question = itemText;
+	}
 
 }

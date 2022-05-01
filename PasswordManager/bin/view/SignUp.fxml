@@ -12,7 +12,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.SignUpController">
    <children>
       <Text layoutX="186.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Your Account">
@@ -34,10 +33,10 @@
             </PasswordField>
             <MenuButton fx:id="securityQuestionMenuButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Security Question">
               <items>
-                <MenuItem mnemonicParsing="false" text="What is your mother's maiden name?" />
-                <MenuItem mnemonicParsing="false" text="In what city were you born?" />
-                  <MenuItem mnemonicParsing="false" text="What high school did you attend?" />
-                  <MenuItem mnemonicParsing="false" text="In what city or town did your mother and father meet?" />
+                <MenuItem mnemonicParsing="false" onAction="#menuItemHandler" text="What is your mother's maiden name?" />
+                <MenuItem mnemonicParsing="false" onAction="#menuItemHandler" text="In what city were you born?" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuItemHandler" text="What high school did you attend?" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuItemHandler" text="In what city or town did your mother and father meet?" />
               </items>
                <font>
                   <Font size="15.0" />

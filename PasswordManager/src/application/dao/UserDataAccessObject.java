@@ -4,8 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import application.CommonObjects;
 import application.model.Account;
@@ -18,7 +22,7 @@ public class UserDataAccessObject {
 
 	public User get(String id) throws IOException {
 		// create a buffered reader from file path
-		InputStreamReader isr = new InputStreamReader(UserDataAccessObject.class.getResourceAsStream("resources/flatFiles/Users.txt"));
+		InputStreamReader isr = new InputStreamReader(UserDataAccessObject.class.getClassLoader().getResourceAsStream("flatFiles/Users.txt"));
 		BufferedReader br = new BufferedReader(isr);
 		String line = "";
 		line = br.readLine();
@@ -32,7 +36,7 @@ public class UserDataAccessObject {
 				user.setPassword(data[1]); // update password variable
 				user.setSecurityQuestion(data[2]); // update security question variable
 				user.setSecurityQuestionAnswer(data[3]); // update security question answer variable
-				ArrayList<Account> accounts = accountDAO.getAllAccounts(id);
+				ArrayList<Account> accounts = commonObjs.getAccountDAO().getAllAccounts(id);
 				user.setListOfAccounts(accounts);
 				br.close();
 				isr.close();
@@ -42,16 +46,16 @@ public class UserDataAccessObject {
 		}
 		br.close();
 		isr.close();
-		// if not found then return null
+//		 if not found then return null
 		return null;
 	}
 
 	public void insertUser(User user) throws IOException {
 		
 		// file path
-		String path = "resources/flatFiles/Users.txt";
+		URL path = getClass().getClassLoader().getResource("flatFiles/Users.txt");
 		// append at the end is true
-		FileWriter fw = new FileWriter(path, true);
+		FileWriter fw = new FileWriter(path.getFile(), true);
 		// format of appended line
 		String appendedUser = user.getUsername() + ", " + user.getPassword() + 
 				", " + user.getSecurityQuestion() + ", " + user.getSecurityQuestionAnswer() + "\n";
@@ -59,13 +63,13 @@ public class UserDataAccessObject {
 		fw.close();
 		
 		// create new file to store the list of accounts of the current user
-		path = "resources/flatFiles/accounts/" + user.getUsername() + ".txt";
-		File userAccounts = new File(path);
-		userAccounts.createNewFile();
-		// append each account's information to the file
-		for (Account account: user.getListOfAccounts()) {
-			accountDAO.insertAccount(account);
-		}
+//		path = "resources/flatFiles/accounts/" + user.getUsername() + ".txt";
+//		File userAccounts = new File(path);
+//		userAccounts.createNewFile();
+//		// append each account's information to the file
+//		for (Account account: user.getListOfAccounts()) {
+//			accountDAO.insertAccount(account);
+//		}
 		
 	}
 

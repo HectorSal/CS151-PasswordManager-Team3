@@ -29,6 +29,11 @@ public class ResetMasterPasswordController {
 			e.printStackTrace();
 		}
 	}
-	@FXML public void setMasterPassword() {}
+	@FXML public void setMasterPassword() {
+		String newPass = masterPasswordField1.getText();
+		if(newPass.equals(masterPasswordField2.getText())) {
+			// TODO add in security question comparison and update user master pass
+		}
+	}
 
 }

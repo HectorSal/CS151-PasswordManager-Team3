@@ -3,6 +3,7 @@ package application.controller;
 import java.io.IOException;
 
 import application.CommonObjects;
+import application.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
@@ -16,7 +17,27 @@ public class LoginController {
 	
 	@FXML TextField usernameTextField;
 	@FXML PasswordField passwordField;
-	@FXML public void verifyLogin() {}
+	@FXML public void verifyLogin() {
+		try {
+			User user = commonObject.getUserDAO().get(usernameTextField.getText());
+			if(user != null && passwordField.getText().equals(user.getPassword())) {
+				showHomePage();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void showHomePage() {
+		VBox mainBox = commonObject.getMainBox();
+		mainBox.getChildren().clear();
+		
+		try {
+			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/Home.fxml")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	@FXML public void showSignUpPage() {
 		VBox mainBox = commonObject.getMainBox();
 		mainBox.getChildren().clear();
