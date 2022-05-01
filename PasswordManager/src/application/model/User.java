@@ -18,6 +18,16 @@ public class User {
 		this.setListOfAccounts(listOfAccounts);
 	}
 
+	public ArrayList<Account> getExpiredAccounts() {
+		ArrayList<Account> expiredAccounts = new ArrayList<Account>();
+		for (Account account: listOfAccounts) {
+			if (account.isExpired()) {
+				expiredAccounts.add(account);
+			}
+		}
+		return expiredAccounts;
+	}
+	
 	public String getUsername() {
 		return username;
 	}

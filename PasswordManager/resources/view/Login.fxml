@@ -47,7 +47,7 @@
                   </Button>
                </children>
             </HBox>
-            <Hyperlink onAction="#showResetMasterPasswordPage" text="Forgot your password?" underline="true">
+            <Hyperlink onAction="#showEnterUsernamePage" text="Forgot your password?" underline="true">
                <font>
                   <Font size="20.0" />
                </font>

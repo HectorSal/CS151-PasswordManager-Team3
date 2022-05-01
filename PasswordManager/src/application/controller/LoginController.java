@@ -22,8 +22,25 @@ public class LoginController {
 			User user = commonObject.getUserDAO().get(usernameTextField.getText());
 			if(user != null && passwordField.getText().equals(user.getPassword())) {
 				commonObject.setCurrentUser(user);
-				showHomePage();
+				if (user.getExpiredAccounts().isEmpty()) {
+					showHomePage();
+				}
+				else {
+					showExpiredWarningPage();
+				}
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void showExpiredWarningPage() {
+		VBox mainBox = commonObject.getMainBox();
+		mainBox.getChildren().clear();
+		
+		try {
+			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/ExpiredWarning.fxml")));
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,12 +66,13 @@ public class LoginController {
 			e.printStackTrace();
 		}
 	}
-	@FXML public void showResetMasterPasswordPage() {
+
+	@FXML public void showEnterUsernamePage() {
 		VBox mainBox = commonObject.getMainBox();
 		mainBox.getChildren().clear();
 		
 		try {
-			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/ResetMasterPassword.fxml")));
+			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/EnterUsername.fxml")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

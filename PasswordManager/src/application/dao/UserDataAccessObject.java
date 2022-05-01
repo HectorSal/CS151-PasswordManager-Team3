@@ -113,11 +113,19 @@ public class UserDataAccessObject {
 		
 	}
 	
+	/*
+	 * Updates the user's info in the text file "Users.txt"
+	 * 
+	 * @param user the user that will have their info updated
+	 * @return true if the user exists and their info was updated, and false otherwise
+	 * 
+	 */
+	
 	public boolean updateUser(User user) throws IOException {
 		
 		
 		// file path
-		InputStreamReader isr = new InputStreamReader(UserDataAccessObject.class.getResourceAsStream("resources/flatFiles/Users.txt"));
+		InputStreamReader isr = new InputStreamReader(UserDataAccessObject.class.getClassLoader().getResourceAsStream("flatFiles/Users.txt"));
 		BufferedReader br = new BufferedReader(isr);
 		String line = "";
 		// add every line of the file to the list
@@ -150,7 +158,9 @@ public class UserDataAccessObject {
 				", " + user.getSecurityQuestion() + ", " + user.getSecurityQuestionAnswer();
 		lines.set(index, edittedLine);
 		// delete the users file and recreate it
-		File users = new File("resources/flatFiles/Users.txt");
+		
+		URL path = getClass().getResource("/flatFiles/Users.txt");
+		File users = new File(path.getFile());
 		users.delete();
 		users.createNewFile();
 		// append every line from the ArrayList

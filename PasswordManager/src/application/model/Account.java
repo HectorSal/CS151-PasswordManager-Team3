@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class Account {
 
+	static final long THIRTY_DAYS_IN_MILLISECONDS = 2592000000L;
+	
 	private String masterUser;
 	
 	private String serviceName;
@@ -21,6 +23,20 @@ public class Account {
 		this.password = password;
 		this.passwordCreationDate = passwordCreationDate;
 		this.passwordExpirationDate = passwordExpirationDate;
+	}
+	
+	@Override
+	public String toString() {
+		String account = "Service: " + serviceName + ", Username: " + username + ", Email: " + email;
+		return account;
+	}
+	
+	public boolean isExpired() {
+		Date currentTime = new Date();
+		if (currentTime.getTime() >= passwordExpirationDate.getTime()) {
+			return true;
+		}
+		return false;
 	}
 	
 	public String getServiceName() {
