@@ -4,6 +4,7 @@ import java.util.Random;
 
 import application.dao.AccountDataAccessObject;
 import application.dao.UserDataAccessObject;
+import application.model.User;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -15,6 +16,7 @@ public class CommonObjects {
 	private Random generator;
 	private AccountDataAccessObject accountDAO;
 	private UserDataAccessObject userDAO;
+	private User currentUser;
 	
 	private CommonObjects() {
 		
@@ -54,6 +56,14 @@ public class CommonObjects {
 
 	public void setUserDAO(UserDataAccessObject userDAO) {
 		this.userDAO = userDAO;
+	}
+
+	public User getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(User currentUser) {
+		this.currentUser = currentUser;
 	}
 	
 	

@@ -3,6 +3,7 @@ package application.dao;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.io.FileWriter;
@@ -22,7 +23,7 @@ public class AccountDataAccessObject {
 		while (line != null) {
 			// update account info with all data on the line
 			if (!line.isEmpty()) {
-			Account current = new Account(null, null, null, null, null, null);
+			Account current = new Account(null, null, null, null, null, null, null);
 			String[] data = line.split(", ");
 			current.setMasterUser(user);
 			current.setServiceName(data[0]);
@@ -53,12 +54,13 @@ public class AccountDataAccessObject {
 		String user = account.getMasterUser(); // user which this account belongs to
 		
 		// access file for storing the user's list of accounts
-		String path = "resources/flatFiles/accounts/" + user + ".txt";
+		String pathString = "/flatFiles/accounts/" + user + ".txt";
+		URL path = getClass().getResource(pathString);
 		// append at the end is true
-		FileWriter fw = new FileWriter(path, true);
+		FileWriter fw = new FileWriter(path.getFile(), true);
 		String appendedAccount = account.getServiceName() + ", " + account.getUsername() + 
 				", " + account.getEmail() + ", " + account.getPassword() + ", " + account.getPasswordCreationDate().getTime() + 
-				", " + account.getPasswordExpirationDate() + "\n";
+				", " + account.getPasswordExpirationDate().getTime() + "\n";
 		fw.write(appendedAccount);
 		fw.close();
 		

@@ -43,6 +43,7 @@ public class Main extends Application {
 			commonObjects.setGenerator(generator);
 			commonObjects.setUserDAO(userDao);
 			commonObjects.setAccountDAO(accountDao);
+			commonObjects.setCurrentUser(null);
 			
 			
 		} catch(Exception e) {

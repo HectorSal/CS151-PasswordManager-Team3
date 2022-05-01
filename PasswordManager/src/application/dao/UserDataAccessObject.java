@@ -49,30 +49,70 @@ public class UserDataAccessObject {
 //		 if not found then return null
 		return null;
 	}
-
-	public void insertUser(User user) throws IOException {
+	
+	/*
+	 * checks if Users.txt contains the user
+	 * 
+	 * @param id the username to be searched
+	 * @return true if the user is in the file, or false otherwise
+	 * 
+	 */
+	
+	public boolean userExists(String id) throws IOException {
 		
-		// file path
-		URL path = getClass().getClassLoader().getResource("flatFiles/Users.txt");
-		// append at the end is true
-		FileWriter fw = new FileWriter(path.getFile(), true);
-		// format of appended line
-		String appendedUser = user.getUsername() + ", " + user.getPassword() + 
-				", " + user.getSecurityQuestion() + ", " + user.getSecurityQuestionAnswer() + "\n";
-		fw.write(appendedUser);
-		fw.close();
-		
-		// create new file to store the list of accounts of the current user
-//		path = "resources/flatFiles/accounts/" + user.getUsername() + ".txt";
-//		File userAccounts = new File(path);
-//		userAccounts.createNewFile();
-//		// append each account's information to the file
-//		for (Account account: user.getListOfAccounts()) {
-//			accountDAO.insertAccount(account);
-//		}
-		
+		// create a buffered reader from file path
+			InputStreamReader isr = new InputStreamReader(UserDataAccessObject.class.getClassLoader().getResourceAsStream("flatFiles/Users.txt"));
+			BufferedReader br = new BufferedReader(isr);
+			String line = "";
+			line = br.readLine();
+			// search each line, split the elements, and compare the username (first element)
+			while (line != null) {
+				String[] data = line.split(", ");
+				// if the user is found, then return true
+				if (data[0].equals(id)) {
+					return true;
+				}
+				line = br.readLine();
+			}
+			br.close();
+			isr.close();
+			
+			return false;
+			
 	}
 
+	/*
+	 * inserts a new user's information into Users.txt if it does not exits.
+	 * 
+	 * @param user the user that will be added
+	 * @return true if the user is added succesfully, or false if a user is not added because the username is already taken
+	 * 
+	 */
+	
+	public boolean insertUser(User user) throws IOException {
+
+		
+		if (!userExists(user.getUsername())) {
+        // file path
+		    URL path = getClass().getResource("/flatFiles/Users.txt");
+		    // append at the end is true
+		    FileWriter fw = new FileWriter(path.getFile(), true);
+		    // format of appended line
+		    String appendedUser = user.getUsername() + ", " + user.getPassword() + 
+		            ", " + user.getSecurityQuestion() + ", " + user.getSecurityQuestionAnswer() + "\n";
+		    fw.write(appendedUser);
+		    fw.close();
+		
+		    // create new file to store the list of accounts of the current user
+		    path = new URL(getClass().getResource("/flatFiles/accounts/").toString().concat(user.getUsername() + ".txt"));
+		    File userAccounts = new File(path.getPath());
+		    userAccounts.createNewFile();
+		    return true;
+		}
+		return false;
+		
+	}
+	
 	public boolean updateUser(User user) throws IOException {
 		
 		

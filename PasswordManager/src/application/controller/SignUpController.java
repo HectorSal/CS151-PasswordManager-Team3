@@ -24,6 +24,7 @@ public class SignUpController {
 	@FXML PasswordField passwordField;
 	@FXML MenuButton securityQuestionMenuButton;
 	@FXML TextField securityQuestionAnswer;	
+	
 	@FXML public void showLoginPage() {
 		VBox mainBox = commonObject.getMainBox();
 		mainBox.getChildren().clear();
@@ -40,12 +41,18 @@ public class SignUpController {
 				pass = passwordField.getText(),  
 				answer = securityQuestionAnswer.getText();
 		
+		boolean added = false;
+		
 		if(!user.isEmpty() && !pass.isEmpty() && !question.isEmpty() &&	!answer.isEmpty()) {
 			try {
-				commonObject.getUserDAO().insertUser(new User(user, pass, question, answer, new ArrayList<Account>()));
+				added = commonObject.getUserDAO().insertUser(new User(user, pass, question, answer, new ArrayList<Account>()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+		
+		if (added) {
+			showLoginPage();
 		}
 	}
 	

@@ -13,7 +13,8 @@ public class Account {
 	private Date passwordCreationDate;
 	private Date passwordExpirationDate;
 	
-	public Account(String serviceName, String username, String email, String password, Date passwordCreationDate, Date passwordExpirationDate) {
+	public Account(String masterUser, String serviceName, String username, String email, String password, Date passwordCreationDate, Date passwordExpirationDate) {
+		this.masterUser = masterUser;
 		this.serviceName = serviceName;
 		this.username = username;
 		this.email = email;

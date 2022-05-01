@@ -3,9 +3,11 @@ package application.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 import application.CommonObjects;
+import application.dao.AccountDataAccessObject;
 import application.model.Account;
 import application.model.User;
 import javafx.fxml.FXML;
@@ -19,6 +21,8 @@ import javafx.scene.control.PasswordField;
 
 public class AddAccountController {
 
+	static final long THIRTY_DAYS_IN_MILLISECONDS = 2592000000L;
+	
 	private CommonObjects commonObject = CommonObjects.getInstance();
 	private boolean capitalLettersEnabled = false;
 	private boolean specialCharactersEnabled = false;
@@ -182,18 +186,22 @@ public class AddAccountController {
 	}
 	
 	@FXML public void addAccount() {
-		if (serviceNameTextField.getText().isEmpty()) {
-			return;
-		}
-		
-		if (usernameTextField.getText().isEmpty()) {
-			return;
-		}
-		if (emailTextField.getText().isEmpty()) {
-			return;
-		}
-		if (passwordField.getText().isEmpty()) {
-			return;
+		if (!serviceNameTextField.getText().isEmpty() && !usernameTextField.getText().isEmpty() && !emailTextField.getText().isEmpty() && !passwordField.getText().isEmpty()) {
+			User currentUser = commonObject.getCurrentUser(); // get the current user
+			// creation and expiration dates
+			Date creationTime = new Date();
+			Long expirationTimeLong = creationTime.getTime() + THIRTY_DAYS_IN_MILLISECONDS; 
+			Date expirationTime = new Date(expirationTimeLong);
+			// create account object from text fields;
+			Account account = new Account(currentUser.getUsername(), serviceNameTextField.getText(), usernameTextField.getText(), emailTextField.getText(), passwordField.getText(), creationTime, expirationTime);
+			
+			AccountDataAccessObject accountDAO = commonObject.getAccountDAO();
+			try {
+				accountDAO.insertAccount(account);
+				showHomePage();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

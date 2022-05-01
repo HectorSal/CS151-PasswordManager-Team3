@@ -21,6 +21,7 @@ public class LoginController {
 		try {
 			User user = commonObject.getUserDAO().get(usernameTextField.getText());
 			if(user != null && passwordField.getText().equals(user.getPassword())) {
+				commonObject.setCurrentUser(user);
 				showHomePage();
 			}
 		} catch (IOException e) {
