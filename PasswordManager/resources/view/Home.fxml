@@ -16,16 +16,16 @@
             <Font size="30.0" />
          </font>
       </Text>
-      <TextField layoutX="80.0" layoutY="67.0" prefHeight="25.0" prefWidth="710.0" promptText="Search Service or Username" />
+      <TextField fx:id="filterField" layoutX="80.0" layoutY="67.0" prefHeight="25.0" prefWidth="710.0" promptText="Search Service or Username" />
       <Button layoutX="790.0" layoutY="67.0" mnemonicParsing="false" prefWidth="100.0" text="Search" />
       <TableView fx:id="accountTable" layoutX="80.0" layoutY="120.0" prefHeight="405.0" prefWidth="810.0">
         <columns>
-          <TableColumn prefWidth="130.0" text="Service" />
-          <TableColumn prefWidth="130.0" text="Username" />
-            <TableColumn prefWidth="130.0" text="Email" />
-            <TableColumn minWidth="0.0" prefWidth="110.0" text="Password" />
-            <TableColumn prefWidth="90.0" text="Created On" />
-            <TableColumn prefWidth="90.0" text="Expires On" />
+          <TableColumn fx:id="serviceCol" prefWidth="130.0" text="Service" />
+          <TableColumn fx:id="userCol" prefWidth="130.0" text="Username" />
+            <TableColumn fx:id="emailCol" prefWidth="130.0" text="Email" />
+            <TableColumn fx:id="passCol" minWidth="0.0" prefWidth="110.0" text="Password" />
+            <TableColumn fx:id="createdCol" prefWidth="90.0" text="Created On" />
+            <TableColumn fx:id="expiresCol" prefWidth="90.0" text="Expires On" />
             <TableColumn prefWidth="130.0" text="Actions" />
         </columns>
       </TableView>

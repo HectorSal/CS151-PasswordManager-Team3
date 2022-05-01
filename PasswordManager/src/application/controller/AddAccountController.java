@@ -198,6 +198,7 @@ public class AddAccountController {
 			AccountDataAccessObject accountDAO = commonObject.getAccountDAO();
 			try {
 				accountDAO.insertAccount(account);
+				currentUser.getListOfAccounts().add(account);				
 				showHomePage();
 			} catch (IOException e) {
 				e.printStackTrace();

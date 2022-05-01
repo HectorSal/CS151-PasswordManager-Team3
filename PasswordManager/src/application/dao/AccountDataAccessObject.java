@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.io.FileWriter;
 
+import application.CommonObjects;
 import application.model.Account;
 
 public class AccountDataAccessObject {
@@ -63,7 +64,6 @@ public class AccountDataAccessObject {
 				", " + account.getPasswordExpirationDate().getTime() + "\n";
 		fw.write(appendedAccount);
 		fw.close();
-		
 		
 		
 	}
