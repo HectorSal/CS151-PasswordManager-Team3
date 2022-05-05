@@ -5,6 +5,8 @@ import java.util.Random;
 import application.dao.AccountDataAccessObject;
 import application.dao.UserDataAccessObject;
 import application.model.User;
+import edu.sjsu.yazdankhah.crypto.util.PassUtil;
+import javafx.scene.input.Clipboard;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -17,6 +19,10 @@ public class CommonObjects {
 	private AccountDataAccessObject accountDAO;
 	private UserDataAccessObject userDAO;
 	private User currentUser;
+	private Stage primaryStage;
+	private boolean userIsLoggedIn;
+	private PassUtil passUtil;
+	private Clipboard clipboard;
 	
 	private CommonObjects() {
 		
@@ -64,6 +70,38 @@ public class CommonObjects {
 
 	public void setCurrentUser(User currentUser) {
 		this.currentUser = currentUser;
+	}
+
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
+
+	public void setPrimaryStage(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+	}
+
+	public boolean isUserIsLoggedIn() {
+		return userIsLoggedIn;
+	}
+
+	public void setUserIsLoggedIn(boolean userIsLoggedIn) {
+		this.userIsLoggedIn = userIsLoggedIn;
+	}
+
+	public PassUtil getPassUtil() {
+		return passUtil;
+	}
+
+	public void setPassUtil(PassUtil passUtil) {
+		this.passUtil = passUtil;
+	}
+
+	public Clipboard getClipboard() {
+		return clipboard;
+	}
+
+	public void setClipboard(Clipboard clipboard) {
+		this.clipboard = clipboard;
 	}
 	
 	

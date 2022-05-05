@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.scene.control.PasswordField;
 
 public class LoginController {
@@ -22,6 +23,7 @@ public class LoginController {
 			User user = commonObject.getUserDAO().get(usernameTextField.getText());
 			if(user != null && passwordField.getText().equals(user.getPassword())) {
 				commonObject.setCurrentUser(user);
+				commonObject.setUserIsLoggedIn(true);
 				if (user.getExpiredAccounts().isEmpty()) {
 					showHomePage();
 				}
@@ -36,10 +38,14 @@ public class LoginController {
 	
 	private void showExpiredWarningPage() {
 		VBox mainBox = commonObject.getMainBox();
+		Stage primaryStage = commonObject.getPrimaryStage();
 		mainBox.getChildren().clear();
 		
 		try {
-			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/ExpiredWarning.fxml")));
+			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/ExpiredWarning.fxml"));
+			mainBox.getChildren().add(page);
+			primaryStage.setWidth(page.getPrefWidth());
+			primaryStage.setHeight(page.getPrefHeight());
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -48,20 +54,28 @@ public class LoginController {
 	
 	private void showHomePage() {
 		VBox mainBox = commonObject.getMainBox();
+		Stage primaryStage = commonObject.getPrimaryStage();
 		mainBox.getChildren().clear();
 		
 		try {
-			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/Home.fxml")));
+			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/Home.fxml"));
+			mainBox.getChildren().add(page);
+			primaryStage.setWidth(page.getPrefWidth());
+			primaryStage.setHeight(page.getPrefHeight());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	@FXML public void showSignUpPage() {
 		VBox mainBox = commonObject.getMainBox();
+		Stage primaryStage = commonObject.getPrimaryStage();
 		mainBox.getChildren().clear();
 		
 		try {
-			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/SignUp.fxml")));
+			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/SignUp.fxml"));
+			mainBox.getChildren().add(page);
+			primaryStage.setWidth(page.getPrefWidth());
+			primaryStage.setHeight(page.getPrefHeight());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -69,10 +83,14 @@ public class LoginController {
 
 	@FXML public void showEnterUsernamePage() {
 		VBox mainBox = commonObject.getMainBox();
+		Stage primaryStage = commonObject.getPrimaryStage();
 		mainBox.getChildren().clear();
 		
 		try {
-			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/EnterUsername.fxml")));
+			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/EnterUsername.fxml"));
+			mainBox.getChildren().add(page);
+			primaryStage.setWidth(page.getPrefWidth());
+			primaryStage.setHeight(page.getPrefHeight());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

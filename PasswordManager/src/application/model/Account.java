@@ -39,6 +39,18 @@ public class Account {
 		return false;
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		Account account = (Account) o;
+		if (serviceName.equals(account.serviceName) && username.equals(account.username) && 
+				email.equals(account.email) && password.equals(account.password) && 
+				passwordCreationDate.equals(account.passwordCreationDate) &&
+				passwordExpirationDate.equals(account.passwordExpirationDate)) {
+					return true;
+				}
+		return false;
+	}
+	
 	public String getServiceName() {
 		return serviceName;
 	}

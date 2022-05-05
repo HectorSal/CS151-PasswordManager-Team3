@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class EnterUsernameController {
 
@@ -19,11 +20,16 @@ public class EnterUsernameController {
 
 	@FXML public void showLoginPage() {
 		VBox mainBox = commonObject.getMainBox();
+		Stage primaryStage = commonObject.getPrimaryStage();
 		mainBox.getChildren().clear();
 		commonObject.setCurrentUser(null);
+		commonObject.setUserIsLoggedIn(false);
 		
 		try {
-			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/Login.fxml")));
+			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/Login.fxml"));
+			mainBox.getChildren().add(page);
+			primaryStage.setWidth(page.getPrefWidth());
+			primaryStage.setHeight(page.getPrefHeight());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -31,16 +37,14 @@ public class EnterUsernameController {
 
 	private void showResetMasterPasswordPage() {
 		VBox mainBox = commonObject.getMainBox();
+		Stage primaryStage = commonObject.getPrimaryStage();
 		mainBox.getChildren().clear();
 		
 		try {
-			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/ResetMasterPassword.fxml")));
-			// modify the security question
-			AnchorPane ap = (AnchorPane) mainBox.getChildren().get(0);
-			VBox vbox = (VBox) ap.getChildren().get(0);
-			Text securityQuestion = (Text) vbox.getChildren().get(0);
-			User currentUser = commonObject.getCurrentUser();
-			securityQuestion.setText(currentUser.getSecurityQuestion());
+			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/ResetMasterPassword.fxml"));
+			mainBox.getChildren().add(page);
+			primaryStage.setWidth(page.getPrefWidth());
+			primaryStage.setHeight(page.getPrefHeight());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -27,10 +28,14 @@ public class SignUpController {
 	
 	@FXML public void showLoginPage() {
 		VBox mainBox = commonObject.getMainBox();
+		Stage primaryStage = commonObject.getPrimaryStage();
 		mainBox.getChildren().clear();
 		
 		try {
-			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/Login.fxml")));
+			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/Login.fxml"));
+			mainBox.getChildren().add(page);
+			primaryStage.setWidth(page.getPrefWidth());
+			primaryStage.setHeight(page.getPrefHeight());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

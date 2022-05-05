@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.CommonObjects;
+import application.dao.AccountDataAccessObject;
 import application.model.Account;
 import application.model.User;
+import edu.sjsu.yazdankhah.crypto.util.PassUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -18,20 +20,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 
 public class HomeController {
 
 	private CommonObjects commonObject = CommonObjects.getInstance();
 	
-	@FXML TableView accountTable;
+	@FXML TableView<Account> accountTable;
     @FXML private TableColumn<Account, String> serviceCol;
     @FXML private TableColumn<Account, String> userCol;
     @FXML private TableColumn<Account, String> emailCol;
-    @FXML private TableColumn<Account, String> passCol;
     @FXML private TableColumn<Account, Date> createdCol;
     @FXML private TableColumn<Account, Date> expiresCol;
 	@FXML TextField filterField;
@@ -42,10 +46,10 @@ public class HomeController {
 	}
 	
 	@FXML public void initialize() {
+		
 		serviceCol.setCellValueFactory(new PropertyValueFactory<Account, String>("serviceName"));
 		userCol.setCellValueFactory(new PropertyValueFactory<Account, String>("username"));
 		emailCol.setCellValueFactory(new PropertyValueFactory<Account, String>("email"));
-		passCol.setCellValueFactory(new PropertyValueFactory<Account, String>("password"));
 		createdCol.setCellValueFactory(new PropertyValueFactory<Account, Date>("passwordCreationDate"));
 		expiresCol.setCellValueFactory(new PropertyValueFactory<Account, Date>("passwordExpirationDate"));
 		
@@ -81,7 +85,7 @@ public class HomeController {
 	}
 
 	@FXML public void showAddAccountPage() {
-		
+		Stage primaryStage = commonObject.getPrimaryStage();
 		URL url = getClass().getClassLoader().getResource("view/AddAccount.fxml");
 		try {
 			AnchorPane pagePane = (AnchorPane) FXMLLoader.load(url);
@@ -90,8 +94,8 @@ public class HomeController {
 			
 			mainBox.getChildren().clear();
 			mainBox.getChildren().add(pagePane);
-			VBox vbox = (VBox) pagePane.getChildren().get(1);
-			vbox.getChildren().remove(5);
+			primaryStage.setWidth(pagePane.getPrefWidth());
+			primaryStage.setHeight(pagePane.getPrefHeight());
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -99,31 +103,80 @@ public class HomeController {
 		
 		
 	}
+	
+	@FXML public void deleteAccount() {
+		Account account = accountTable.getSelectionModel().getSelectedItem();
+		if (account != null) {
+			AccountDataAccessObject accountDAO = commonObject.getAccountDAO();
+			User user = commonObject.getCurrentUser();
+			try {
+				int index = accountDAO.deleteAccount(account);
+				if (index != -1) {
+					user.getListOfAccounts().remove(index);
+					initialize();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	@FXML public void copyPassword() {
+		Account account = accountTable.getSelectionModel().getSelectedItem();
+		if (account != null) {
+			Clipboard clipboard = commonObject.getClipboard();
+			ClipboardContent content = new ClipboardContent();
+			PassUtil passUtil = commonObject.getPassUtil();
+			String decryptedPassword = passUtil.decrypt(account.getPassword());
+			content.putString(decryptedPassword);
+			clipboard.setContent(content);
+		}
+	}
 
 	@FXML public void showResetMasterPasswordPage() {
 		VBox mainBox = commonObject.getMainBox();
 		mainBox.getChildren().clear();
+		Stage primaryStage = commonObject.getPrimaryStage();
 		
 		try {
-			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/ResetMasterPassword.fxml")));
-			// modify the security question
-			AnchorPane ap = (AnchorPane) mainBox.getChildren().get(0);
-			VBox vbox = (VBox) ap.getChildren().get(0);
-			Text securityQuestion = (Text) vbox.getChildren().get(0);
-			User currentUser = commonObject.getCurrentUser();
-			securityQuestion.setText(currentUser.getSecurityQuestion());
+			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/ResetMasterPassword.fxml"));
+			mainBox.getChildren().add(page);
+			primaryStage.setWidth(page.getPrefWidth());
+			primaryStage.setHeight(page.getPrefHeight());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	@FXML public void showExpiredWarningPage() {
+		VBox mainBox = commonObject.getMainBox();
+		Stage primaryStage = commonObject.getPrimaryStage();
+		mainBox.getChildren().clear();
+		
+		try {
+			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/ExpiredWarning.fxml"));
+			mainBox.getChildren().add(page);
+			primaryStage.setWidth(page.getPrefWidth());
+			primaryStage.setHeight(page.getPrefHeight());
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@FXML public void showLoginPage() {
 		VBox mainBox = commonObject.getMainBox();
 		mainBox.getChildren().clear();
+		Stage primaryStage = commonObject.getPrimaryStage();
 		commonObject.setCurrentUser(null);
+		commonObject.setUserIsLoggedIn(false);
 		
 		try {
-			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/Login.fxml")));
+			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/Login.fxml"));
+			mainBox.getChildren().add(page);
+			primaryStage.setWidth(page.getPrefWidth());
+			primaryStage.setHeight(page.getPrefHeight());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

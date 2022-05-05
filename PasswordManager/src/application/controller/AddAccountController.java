@@ -2,6 +2,7 @@ package application.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -10,14 +11,17 @@ import application.CommonObjects;
 import application.dao.AccountDataAccessObject;
 import application.model.Account;
 import application.model.User;
+import edu.sjsu.yazdankhah.crypto.util.PassUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.DatePicker;
 
 public class AddAccountController {
 
@@ -30,7 +34,7 @@ public class AddAccountController {
 	@FXML TextField serviceNameTextField;
 	@FXML TextField usernameTextField;
 	@FXML TextField emailTextField;
-	@FXML PasswordField passwordField;
+	@FXML TextField passwordField;
 	@FXML CheckBox passwordGeneratorCheckBox;
 	@FXML VBox passwordGenerator;
 	@FXML TextField minPasswordLengthTextField;
@@ -40,22 +44,32 @@ public class AddAccountController {
 	@FXML VBox textFieldsAndButtonsVBox;
 	@FXML TextField capitalLettersField;
 	@FXML HBox navigationButtonsHBox;
+
+	@FXML DatePicker datePicker;
+
+	@FXML TextField specialCharactersField;
+	
+	@FXML public void initialize(){
+		textFieldsAndButtonsVBox.getChildren().remove(6);
+	}
 	
 	@FXML public void togglePasswordGenerator() {
 		if (passwordGeneratorCheckBox.isSelected()) {
 			
-			textFieldsAndButtonsVBox.getChildren().remove(5);
+			textFieldsAndButtonsVBox.getChildren().remove(6);
 			textFieldsAndButtonsVBox.getChildren().addAll(passwordGenerator, navigationButtonsHBox);
 		}
 		else {
-			textFieldsAndButtonsVBox.getChildren().remove(5);
+			textFieldsAndButtonsVBox.getChildren().remove(6);
 		}
 	}
 	@FXML public void toggleSpecialCharacters() {
 		
 		specialCharactersEnabled = specialCharactersCheckBox.isSelected();
+		specialCharactersField.setVisible(specialCharactersEnabled);
 		
 	}
+	
 	@FXML public void toggleCapitalLettersField() {
 		
 		capitalLettersEnabled = capitalLettersCheckBox.isSelected();
@@ -70,6 +84,7 @@ public class AddAccountController {
 		int minLength = 0;
 		int maxLength = 0;
 		int numOfCapitalLetters = 0;
+		int numOfSpecialCharacters = 0;
 		
 		
 		// check for valid input from all fields
@@ -125,16 +140,32 @@ public class AddAccountController {
 			}
 		}
 		
+		if (specialCharactersEnabled) {
+			if (specialCharactersField.getText().isEmpty()) {
+				return;
+			}
+			else {
+				String specialCharactersInput = specialCharactersField.getText();
+				try {
+					numOfSpecialCharacters = Integer.parseInt(specialCharactersInput);
+					if (numOfSpecialCharacters <= 0 || numOfSpecialCharacters > minLength) {
+						return;
+					}
+					else if (numOfSpecialCharacters + numOfCapitalLetters > minLength) {
+						return;
+					}
+				}
+				catch (NumberFormatException e) {
+					e.printStackTrace();
+					return;
+				}
+			}
+		}
+		
 		// all input is valid and assigned to variables
 		
-		//allowed characters is initially only letters
 		String letters = "abcdefghijklmnopqrstuvwxyz";
 		String specialCharacters = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
-		String allowedCharacters = letters;
-		// if special characters are allowed, then they are added to the allowed character string
-		if (specialCharactersEnabled) {
-			allowedCharacters = allowedCharacters + specialCharacters;
-		}
 		
 		// a random length that is in between the min and max length is generated
 		int length = minLength + generator.nextInt(maxLength - minLength + 1);
@@ -142,15 +173,37 @@ public class AddAccountController {
 		
 		// add each random substring to the password string
 		for (int i = 0; i < length; i ++) {
-			// if the number of capital letters is not fulfilled by the end, then capital letters are forced into the password
-			if (numOfCapitalLetters == length - i) {
-				int randomIndex = generator.nextInt(26);
-				password = password + letters.substring(randomIndex, randomIndex + 1).toUpperCase();
-				numOfCapitalLetters --;
+			// if the number of capital letters and special characters is not fulfilled by the end, then characters are forced into the password
+			if (numOfCapitalLetters + numOfSpecialCharacters == length - i) {
+				// 0 if a capital letter is added
+				// 1 if a special character is added
+				int capsOrSpecial = 0;
+				if (numOfCapitalLetters == 0) {
+					capsOrSpecial = 1;
+				}
+				else if (numOfSpecialCharacters == 0) {
+					capsOrSpecial = 0;
+				}
+				else {
+					capsOrSpecial = generator.nextInt(2);
+				}
+				if (capsOrSpecial == 0) {
+					int randomIndex = generator.nextInt(26);
+					password = password + letters.substring(randomIndex, randomIndex + 1).toUpperCase();
+					numOfCapitalLetters --;
+				}
+				else {
+					int randomIndex = generator.nextInt(specialCharacters.length());
+					password = password + specialCharacters.substring(randomIndex, randomIndex + 1);
+					numOfSpecialCharacters --;
+				}
 			}
+			// else randomly pick a character based on the previous criteria
 			else {
-				// a boolean for determining if an added substring is a capital letter is randomly true
-				boolean addCapitalLetter = 1 == generator.nextInt(3);
+				// 2 booleans for determining what type of character is added
+				int randomNumber = generator.nextInt(3);
+				boolean addCapitalLetter = 1 == randomNumber;
+				boolean addSpecialCharacter = 2 == randomNumber;
 				String addedCharacter = "";
 				// if a capital letter is added
 				if (addCapitalLetter && numOfCapitalLetters > 0) {
@@ -159,10 +212,15 @@ public class AddAccountController {
 					addedCharacter = addedCharacter.toUpperCase();
 					numOfCapitalLetters --;
 				}
-				// a capital letter is not added
+				else if (addSpecialCharacter && numOfSpecialCharacters > 0) {
+					int randomIndex = generator.nextInt(specialCharacters.length());
+					addedCharacter = specialCharacters.substring(randomIndex, randomIndex + 1);
+					numOfSpecialCharacters --;
+				}
+				// a capital letter or special character is not added
 				else {
-					int randomIndex = generator.nextInt(allowedCharacters.length());
-					addedCharacter = allowedCharacters.substring(randomIndex, randomIndex + 1);
+					int randomIndex = generator.nextInt(letters.length());
+					addedCharacter = letters.substring(randomIndex, randomIndex + 1);
 				}
 				// add character to the password
 				password = password + addedCharacter;
@@ -176,10 +234,14 @@ public class AddAccountController {
 	}
 	@FXML public void showHomePage() {
 		VBox mainBox = commonObject.getMainBox();
+		Stage primaryStage = commonObject.getPrimaryStage();
 		mainBox.getChildren().clear();
 		
 		try {
-			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/Home.fxml")));
+			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/Home.fxml"));
+			mainBox.getChildren().add(page);
+			primaryStage.setWidth(page.getPrefWidth());
+			primaryStage.setHeight(page.getPrefHeight());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -190,11 +252,19 @@ public class AddAccountController {
 			User currentUser = commonObject.getCurrentUser(); // get the current user
 			// creation and expiration dates
 			Date creationTime = new Date();
-			Long expirationTimeLong = creationTime.getTime() + THIRTY_DAYS_IN_MILLISECONDS; 
-			Date expirationTime = new Date(expirationTimeLong);
+			Date expirationTime;
+			if (datePicker.getValue() == null) {
+				long expirationTimeLong = creationTime.getTime() + THIRTY_DAYS_IN_MILLISECONDS;
+				expirationTime = new Date(expirationTimeLong);
+			}
+			else {
+				long expirationTimeLong = datePicker.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toEpochSecond() * 1000L;
+				expirationTime = new Date(expirationTimeLong);
+			}
 			// create account object from text fields;
-			Account account = new Account(currentUser.getUsername(), serviceNameTextField.getText(), usernameTextField.getText(), emailTextField.getText(), passwordField.getText(), creationTime, expirationTime);
-			
+			PassUtil passUtil = commonObject.getPassUtil();
+			String encryptedPassword = passUtil.encrypt(passwordField.getText());
+			Account account = new Account(currentUser.getUsername(), serviceNameTextField.getText(), usernameTextField.getText(), emailTextField.getText(), encryptedPassword, creationTime, expirationTime);
 			AccountDataAccessObject accountDAO = commonObject.getAccountDAO();
 			try {
 				accountDAO.insertAccount(account);

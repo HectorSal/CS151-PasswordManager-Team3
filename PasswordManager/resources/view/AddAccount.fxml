@@ -3,15 +3,15 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.AddAccountController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.AddAccountController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="224.0" layoutY="22.0" text="Add a new account">
          <font>
@@ -35,11 +35,12 @@
                   <Font size="15.0" />
                </font>
             </TextField>
-            <PasswordField fx:id="passwordField" promptText="Password">
+            <TextField fx:id="passwordField" prefHeight="25.0" prefWidth="421.0" promptText="Password">
                <font>
                   <Font size="15.0" />
                </font>
-            </PasswordField>
+            </TextField>
+            <DatePicker fx:id="datePicker" promptText="Expiration Date" />
             <CheckBox fx:id="passwordGeneratorCheckBox" mnemonicParsing="false" onAction="#togglePasswordGenerator" text="Generate Password">
                <font>
                   <Font size="15.0" />
@@ -63,11 +64,20 @@
                               </TextField>
                            </children>
                         </HBox>
-                        <CheckBox fx:id="specialCharactersCheckBox" mnemonicParsing="false" onAction="#toggleSpecialCharacters" text="Include Special Characters">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </CheckBox>
+                        <HBox prefHeight="45.0" prefWidth="368.0" spacing="10.0">
+                           <children>
+                              <CheckBox fx:id="specialCharactersCheckBox" mnemonicParsing="false" onAction="#toggleSpecialCharacters" text="Include Special Characters">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </CheckBox>
+                              <TextField fx:id="specialCharactersField" promptText="How many?" visible="false">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </HBox>
                         <HBox prefHeight="45.0" prefWidth="368.0" spacing="10.0">
                            <children>
                               <CheckBox fx:id="capitalLettersCheckBox" mnemonicParsing="false" onAction="#toggleCapitalLettersField" text="Include Capital Letters">

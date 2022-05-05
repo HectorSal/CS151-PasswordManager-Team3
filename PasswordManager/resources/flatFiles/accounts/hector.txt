@@ -1,1 +1,1 @@
-Twitch, hectorTwitch, hectorTwitch@gmail.com, hectorTwitchPassword, 1648717220584, 1651309220584
+Twitch, hectorTwitch, hectorTwitch@gmail.com, dbf7af5b8e528e6de94c3ad1360a00a6eae74954c42300e86e36d2b87b678461, 1651732754572, 1651647600000

@@ -6,9 +6,11 @@ import java.util.Random;
 
 import application.dao.AccountDataAccessObject;
 import application.dao.UserDataAccessObject;
+import edu.sjsu.yazdankhah.crypto.util.PassUtil;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.input.Clipboard;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +34,7 @@ public class Main extends Application {
 			
 			primaryStage.setTitle("Password Manager");
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 			primaryStage.show();
 			
 			// keep a reference of the main box inside the CommonObjects object
@@ -39,6 +42,9 @@ public class Main extends Application {
 			Random generator = new Random();
 			UserDataAccessObject userDao = new UserDataAccessObject();
 			AccountDataAccessObject accountDao = new AccountDataAccessObject();
+			commonObjects.setClipboard(Clipboard.getSystemClipboard());
+			commonObjects.setPassUtil(new PassUtil());
+			commonObjects.setPrimaryStage(primaryStage);
 			commonObjects.setMainBox(mainBox);
 			commonObjects.setGenerator(generator);
 			commonObjects.setUserDAO(userDao);

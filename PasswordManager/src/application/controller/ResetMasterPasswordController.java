@@ -8,10 +8,12 @@ import application.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.Button;
 
 public class ResetMasterPasswordController {
 
@@ -21,13 +23,36 @@ public class ResetMasterPasswordController {
 	@FXML TextField securityQuestionAnswerTextField;
 	@FXML PasswordField masterPasswordField1;
 	@FXML PasswordField masterPasswordField2;
+
+	@FXML Button backToLoginButton;
+
+	@FXML Button homeButton;
+	
+	@FXML public void initialize() {
+		// modify the security question
+		User currentUser = commonObject.getCurrentUser();
+		securityQuestion.setText(currentUser.getSecurityQuestion());
+		if (!commonObject.isUserIsLoggedIn()) {
+			homeButton.setVisible(false);
+		}
+		else {
+			backToLoginButton.setText("Logout");
+		}
+		
+	}
+	
 	@FXML public void showLoginPage() {
 		VBox mainBox = commonObject.getMainBox();
 		mainBox.getChildren().clear();
+		Stage primaryStage = commonObject.getPrimaryStage();
 		commonObject.setCurrentUser(null);
+		commonObject.setUserIsLoggedIn(false);
 		
 		try {
-			mainBox.getChildren().add((AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/Login.fxml")));
+			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/Login.fxml"));
+			mainBox.getChildren().add(page);
+			primaryStage.setWidth(page.getPrefWidth());
+			primaryStage.setHeight(page.getPrefHeight());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,8 +74,22 @@ public class ResetMasterPasswordController {
 						e.printStackTrace();
 					}
 				}
-				// TODO add in security question comparison and update user master pass
 			}
+		}
+	}
+
+	@FXML public void showHomePage() {
+		VBox mainBox = commonObject.getMainBox();
+		Stage primaryStage = commonObject.getPrimaryStage();
+		mainBox.getChildren().clear();
+		
+		try {
+			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/Home.fxml"));
+			mainBox.getChildren().add(page);
+			primaryStage.setWidth(page.getPrefWidth());
+			primaryStage.setHeight(page.getPrefHeight());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
