@@ -182,4 +182,12 @@ public class HomeController {
 		}
 	}
 
+	@FXML public void editAccount() {
+		Account account = accountTable.getSelectionModel().getSelectedItem();
+		if (account != null) {
+			commonObject.setCurrentAccount(account);
+			showAddAccountPage();
+		}
+	}
+
 }

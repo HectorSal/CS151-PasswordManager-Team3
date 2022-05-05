@@ -13,7 +13,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.AddAccountController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="224.0" layoutY="22.0" text="Add a new account">
+      <Label fx:id="addOrEditAccountTitle" alignment="CENTER" contentDisplay="CENTER" layoutX="224.0" layoutY="22.0" text="Add a new account">
          <font>
             <Font size="18.0" />
          </font>
@@ -108,7 +108,7 @@
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#addAccount" prefHeight="25.0" prefWidth="179.0" text="Add Account">
+                  <Button fx:id="addAccountButton" mnemonicParsing="false" onAction="#addAccount" prefHeight="25.0" prefWidth="179.0" text="Add Account">
                      <font>
                         <Font size="15.0" />
                      </font>

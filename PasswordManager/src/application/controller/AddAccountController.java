@@ -22,6 +22,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 public class AddAccountController {
 
@@ -48,8 +50,23 @@ public class AddAccountController {
 	@FXML DatePicker datePicker;
 
 	@FXML TextField specialCharactersField;
+
+	@FXML Button addAccountButton;
+
+	@FXML Label addOrEditAccountTitle;
 	
 	@FXML public void initialize(){
+		Account currentAccount = commonObject.getCurrentAccount();
+		if (currentAccount != null) {
+			addOrEditAccountTitle.setText("Edit Account");
+			serviceNameTextField.setText(currentAccount.getServiceName());
+			usernameTextField.setText(currentAccount.getUsername());
+			emailTextField.setText(currentAccount.getEmail());
+			PassUtil passUtil = commonObject.getPassUtil();
+			String decryptedPassword = passUtil.decrypt(currentAccount.getPassword());
+			passwordField.setText(decryptedPassword);
+			addAccountButton.setText("Update Account");
+		}
 		textFieldsAndButtonsVBox.getChildren().remove(6);
 	}
 	
@@ -236,6 +253,7 @@ public class AddAccountController {
 		VBox mainBox = commonObject.getMainBox();
 		Stage primaryStage = commonObject.getPrimaryStage();
 		mainBox.getChildren().clear();
+		commonObject.setCurrentAccount(null);
 		
 		try {
 			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getClassLoader().getResource("view/Home.fxml"));
@@ -267,8 +285,17 @@ public class AddAccountController {
 			Account account = new Account(currentUser.getUsername(), serviceNameTextField.getText(), usernameTextField.getText(), emailTextField.getText(), encryptedPassword, creationTime, expirationTime);
 			AccountDataAccessObject accountDAO = commonObject.getAccountDAO();
 			try {
-				accountDAO.insertAccount(account);
-				currentUser.getListOfAccounts().add(account);				
+				Account currentAccount = commonObject.getCurrentAccount();
+				if (currentAccount != null) {
+					int index = accountDAO.deleteAccount(currentAccount);
+					currentUser.getListOfAccounts().remove(index);
+					accountDAO.insertAccount(account);
+					currentUser.getListOfAccounts().add(account);
+				}
+				else {
+					accountDAO.insertAccount(account);
+					currentUser.getListOfAccounts().add(account);
+				}
 				showHomePage();
 			} catch (IOException e) {
 				e.printStackTrace();

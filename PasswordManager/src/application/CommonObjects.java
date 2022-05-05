@@ -4,6 +4,7 @@ import java.util.Random;
 
 import application.dao.AccountDataAccessObject;
 import application.dao.UserDataAccessObject;
+import application.model.Account;
 import application.model.User;
 import edu.sjsu.yazdankhah.crypto.util.PassUtil;
 import javafx.scene.input.Clipboard;
@@ -23,6 +24,7 @@ public class CommonObjects {
 	private boolean userIsLoggedIn;
 	private PassUtil passUtil;
 	private Clipboard clipboard;
+	private Account currentAccount;
 	
 	private CommonObjects() {
 		
@@ -102,6 +104,14 @@ public class CommonObjects {
 
 	public void setClipboard(Clipboard clipboard) {
 		this.clipboard = clipboard;
+	}
+
+	public Account getCurrentAccount() {
+		return currentAccount;
+	}
+
+	public void setCurrentAccount(Account currentAccount) {
+		this.currentAccount = currentAccount;
 	}
 	
 	

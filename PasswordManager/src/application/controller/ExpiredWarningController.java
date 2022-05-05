@@ -46,7 +46,6 @@ public class ExpiredWarningController {
 	}
 	
 	@FXML public void initialize() {
-		
 		serviceCol.setCellValueFactory(new PropertyValueFactory<Account, String>("serviceName"));
 		userCol.setCellValueFactory(new PropertyValueFactory<Account, String>("username"));
 		emailCol.setCellValueFactory(new PropertyValueFactory<Account, String>("email"));
@@ -179,6 +178,14 @@ public class ExpiredWarningController {
 			primaryStage.setHeight(page.getPrefHeight());
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	@FXML public void editAccount() {
+		Account account = accountTable.getSelectionModel().getSelectedItem();
+		if (account != null) {
+			commonObject.setCurrentAccount(account);
+			showAddAccountPage();
 		}
 	}
 

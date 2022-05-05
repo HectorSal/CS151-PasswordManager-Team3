@@ -18,8 +18,7 @@
             <Font size="30.0" />
          </font>
       </Text>
-      <TextField fx:id="filterField" layoutX="80.0" layoutY="67.0" prefHeight="25.0" prefWidth="710.0" promptText="Search Service or Username" />
-      <Button layoutX="790.0" layoutY="67.0" mnemonicParsing="false" prefWidth="100.0" text="Search" />
+      <TextField fx:id="filterField" layoutX="80.0" layoutY="67.0" prefHeight="25.0" prefWidth="810.0" promptText="Search Service or Username" />
       <TableView fx:id="accountTable" layoutX="80.0" layoutY="120.0" prefHeight="405.0" prefWidth="810.0">
         <columns>
           <TableColumn fx:id="serviceCol" prefWidth="130.0" resizable="false" text="Service" />
@@ -58,15 +57,20 @@
             <Insets />
          </opaqueInsets>
          <padding>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            <Insets bottom="15.0" right="15.0" top="15.0" />
          </padding>
          <children>
-            <Button mnemonicParsing="false" onAction="#deleteAccount" text="Delete Account">
+            <Button mnemonicParsing="false" onAction="#deleteAccount" prefWidth="150.0" text="Delete Account">
                <font>
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#copyPassword" text="Copy Password">
+            <Button mnemonicParsing="false" onAction="#copyPassword" prefWidth="150.0" text="Copy Password">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#editAccount" prefWidth="150.0" text="Edit Account">
                <font>
                   <Font size="15.0" />
                </font>

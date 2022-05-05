@@ -96,7 +96,6 @@ public class UserDataAccessObject {
         // file path
 		    URL path = getClass().getResource("/flatFiles/Users.txt");
 		    // append at the end is true
-		    System.out.println(path);
 		    FileWriter fw = new FileWriter(path.getFile(), true);
 		    // format of appended line
 		    String appendedUser = user.getUsername() + ", " + user.getPassword() + 
