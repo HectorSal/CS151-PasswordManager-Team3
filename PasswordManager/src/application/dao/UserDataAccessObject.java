@@ -2,6 +2,7 @@ package application.dao;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,8 +23,9 @@ public class UserDataAccessObject {
 
 	public User get(String id) throws IOException {
 		// create a buffered reader from file path
-		InputStreamReader isr = new InputStreamReader(UserDataAccessObject.class.getClassLoader().getResourceAsStream("flatFiles/Users.txt"));
-		BufferedReader br = new BufferedReader(isr);
+		File file = new File("resources/flatFiles/Users.txt");
+		FileReader fr = new FileReader(file);
+		BufferedReader br = new BufferedReader(fr);
 		String line = "";
 		line = br.readLine();
 		User user = new User(null, null, null, null, null);
@@ -39,13 +41,13 @@ public class UserDataAccessObject {
 				ArrayList<Account> accounts = commonObjs.getAccountDAO().getAllAccounts(id);
 				user.setListOfAccounts(accounts);
 				br.close();
-				isr.close();
+				fr.close();
 				return user;
 			}
 			line = br.readLine();
 		}
 		br.close();
-		isr.close();
+		fr.close();
 //		 if not found then return null
 		return null;
 	}
@@ -61,8 +63,9 @@ public class UserDataAccessObject {
 	public boolean userExists(String id) throws IOException {
 		
 		// create a buffered reader from file path
-			InputStreamReader isr = new InputStreamReader(UserDataAccessObject.class.getClassLoader().getResourceAsStream("flatFiles/Users.txt"));
-			BufferedReader br = new BufferedReader(isr);
+			File file = new File("resources/flatFiles/Users.txt");
+			FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
 			String line = "";
 			line = br.readLine();
 			// search each line, split the elements, and compare the username (first element)
@@ -75,7 +78,7 @@ public class UserDataAccessObject {
 				line = br.readLine();
 			}
 			br.close();
-			isr.close();
+			fr.close();
 			
 			return false;
 			
@@ -94,9 +97,9 @@ public class UserDataAccessObject {
 		
 		if (!userExists(user.getUsername())) {
         // file path
-		    URL path = getClass().getResource("/flatFiles/Users.txt");
+			File file = new File("resources/flatFiles/Users.txt");
 		    // append at the end is true
-		    FileWriter fw = new FileWriter(path.getFile(), true);
+		    FileWriter fw = new FileWriter(file, true);
 		    // format of appended line
 		    String appendedUser = user.getUsername() + ", " + user.getPassword() + 
 		            ", " + user.getSecurityQuestion() + ", " + user.getSecurityQuestionAnswer() + "\n";
@@ -104,9 +107,9 @@ public class UserDataAccessObject {
 		    fw.close();
 		
 		    // create new file to store the list of accounts of the current user
-		    path = new URL(getClass().getResource("/flatFiles/accounts/").toString().concat(user.getUsername() + ".txt"));
-		    File userAccounts = new File(path.getPath());
-		    userAccounts.createNewFile();
+		    File userAccounts = new File("resources/flatFiles/accounts/" + user.getUsername() + ".txt");
+		    System.out.println(userAccounts.getAbsolutePath());
+		    System.out.println(userAccounts.createNewFile());
 		    return true;
 		}
 		return false;
@@ -125,8 +128,9 @@ public class UserDataAccessObject {
 		
 		
 		// file path
-		InputStreamReader isr = new InputStreamReader(UserDataAccessObject.class.getClassLoader().getResourceAsStream("flatFiles/Users.txt"));
-		BufferedReader br = new BufferedReader(isr);
+		File file = new File("resources/flatFiles/Users.txt");
+		FileReader fr = new FileReader(file);
+		BufferedReader br = new BufferedReader(fr);
 		String line = "";
 		// add every line of the file to the list
 		ArrayList<String> lines = new ArrayList<String>();
@@ -139,7 +143,7 @@ public class UserDataAccessObject {
 		}
 		
 		br.close();
-		isr.close();
+		fr.close();
 		
 		// find the line where the user is 
 		int index = 0;
@@ -159,8 +163,7 @@ public class UserDataAccessObject {
 		lines.set(index, edittedLine);
 		// delete the users file and recreate it
 		
-		URL path = getClass().getResource("/flatFiles/Users.txt");
-		File users = new File(path.getFile());
+		File users = new File("resources/flatFiles/Users.txt");
 		users.delete();
 		users.createNewFile();
 		// append every line from the ArrayList

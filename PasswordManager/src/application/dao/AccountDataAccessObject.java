@@ -2,6 +2,7 @@ package application.dao;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -16,9 +17,9 @@ public class AccountDataAccessObject {
 
 	public ArrayList<Account> getAllAccounts(String user) throws IOException {
 		// file path
-		String path = "flatFiles/accounts/" + user + ".txt";
-		InputStreamReader isr = new InputStreamReader(AccountDataAccessObject.class.getClassLoader().getResourceAsStream(path));
-		BufferedReader br = new BufferedReader(isr);
+		File file = new File("resources/flatFiles/accounts/" + user + ".txt");
+		FileReader fr = new FileReader(file);
+		BufferedReader br = new BufferedReader(fr);
 		String line = "";
 		line = br.readLine();
 		ArrayList<Account> accounts = new ArrayList<Account>();
@@ -47,7 +48,7 @@ public class AccountDataAccessObject {
 		}
 		
 		br.close();
-		isr.close();
+		fr.close();
 		return accounts;
 	}
 
@@ -58,10 +59,9 @@ public class AccountDataAccessObject {
 		String user = account.getMasterUser(); // user which this account belongs to
 		
 		// access file for storing the user's list of accounts
-		String pathString = "/flatFiles/accounts/" + user + ".txt";
-		URL path = getClass().getResource(pathString);
+		File file = new File("resources/flatFiles/accounts/" + user + ".txt");
 		// append at the end is true
-		FileWriter fw = new FileWriter(path.getFile(), true);
+		FileWriter fw = new FileWriter(file, true);
 		String appendedAccount = account.getServiceName() + ", " + account.getUsername() + 
 				", " + account.getEmail() + ", " + account.getPassword() + ", " + account.getPasswordCreationDate().getTime() + 
 				", " + account.getPasswordExpirationDate().getTime() + "\n";
@@ -75,9 +75,9 @@ public class AccountDataAccessObject {
 		String user = account.getMasterUser(); // user which this account belongs to
 		
 		// access file for storing the user's list of accounts
-		String pathString = "flatFiles/accounts/" + user + ".txt";
-		InputStreamReader isr = new InputStreamReader(AccountDataAccessObject.class.getClassLoader().getResourceAsStream(pathString));
-		BufferedReader br = new BufferedReader(isr);
+		File file = new File("resources/flatFiles/accounts/" + user + ".txt");
+		FileReader fr = new FileReader(file);
+		BufferedReader br = new BufferedReader(fr);
 		String line = "";
 		
 		// add every line of the file to the list
@@ -119,12 +119,10 @@ public class AccountDataAccessObject {
 		
 		
 		br.close();
-		isr.close();
+		fr.close();
 		
 		if (found) {
-			pathString = "/flatFiles/accounts/" + user + ".txt";
-			URL path = getClass().getResource(pathString);
-			File accounts = new File(path.getFile());
+			File accounts = new File("resources/flatFiles/accounts/" + user + ".txt");
 			accounts.delete();
 			accounts.createNewFile();
 			// append every line from the ArrayList
