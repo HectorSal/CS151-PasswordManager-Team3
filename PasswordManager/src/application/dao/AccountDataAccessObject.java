@@ -4,14 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.io.FileWriter;
 
-import application.CommonObjects;
 import application.model.Account;
+import application.model.User;
 
 public class AccountDataAccessObject {
 
@@ -68,6 +66,17 @@ public class AccountDataAccessObject {
 		fw.write(appendedAccount);
 		fw.close();
 		
+	}
+	
+	public boolean updateAccount(Account currentAccount, Account newAccount, User user) throws IOException {
+		int index = deleteAccount(currentAccount);
+		if (index >=0){
+			user.getListOfAccounts().remove(index);
+			insertAccount(newAccount);
+			user.getListOfAccounts().add(newAccount);
+			return true;
+		}
+		return false;
 	}
 	
 	public int deleteAccount(Account account) throws IOException {

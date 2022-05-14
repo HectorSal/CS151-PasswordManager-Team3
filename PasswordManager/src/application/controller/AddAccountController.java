@@ -287,10 +287,7 @@ public class AddAccountController {
 			try {
 				Account currentAccount = commonObject.getCurrentAccount();
 				if (currentAccount != null) {
-					int index = accountDAO.deleteAccount(currentAccount);
-					currentUser.getListOfAccounts().remove(index);
-					accountDAO.insertAccount(account);
-					currentUser.getListOfAccounts().add(account);
+					accountDAO.updateAccount(currentAccount, account, currentUser);
 				}
 				else {
 					accountDAO.insertAccount(account);

@@ -19,7 +19,6 @@ import application.model.User;
 public class UserDataAccessObject {
 	
 	private CommonObjects commonObjs= CommonObjects.getInstance();
-	private AccountDataAccessObject accountDAO= commonObjs.getAccountDAO();
 
 	public User get(String id) throws IOException {
 		// create a buffered reader from file path
@@ -108,8 +107,7 @@ public class UserDataAccessObject {
 		
 		    // create new file to store the list of accounts of the current user
 		    File userAccounts = new File("resources/flatFiles/accounts/" + user.getUsername() + ".txt");
-		    System.out.println(userAccounts.getAbsolutePath());
-		    System.out.println(userAccounts.createNewFile());
+		    userAccounts.createNewFile();
 		    return true;
 		}
 		return false;
